@@ -3,10 +3,17 @@ import {
   createTheme,
   useMediaQuery,
   ThemeProvider,
-  PaletteOptions
+  PaletteOptions,
+  ThemeOptions
 } from '@mui/material'
 
 import { useMemo } from 'react'
+
+const globalThemeOptions: ThemeOptions = {
+  shape: {
+    borderRadius: 12
+  }
+}
 
 const palette: PaletteOptions = {
   primary: {
@@ -30,14 +37,16 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     ...palette
-  }
+  },
+  ...globalThemeOptions
 })
 
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
     ...palette
-  }
+  },
+  ...globalThemeOptions
 })
 
 export type Theme = 'dark' | 'light'
