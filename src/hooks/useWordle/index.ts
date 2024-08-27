@@ -55,10 +55,13 @@ export const useWordle = () => {
   const theme = useTheme()
   const [wordToGuess, setWordToGuess] = useState<string | null>(null)
   const [wordsGuessed, setWordsGuessed] = useState<Word[]>([])
-  const [preferredWordLength, setCachedPreferredWordLength] =
-    useState<number>(5)
+  const [preferredWordLength, setCachedPreferredWordLength] = useState<number>(
+    Number(localStorage.getItem('preferredWordLength')) ?? 5
+  )
   const [preferredLanguage, setCahedPreferredLanguage] =
-    useState<LanguagesAvailable>(LanguagesAvailableEnum.en)
+    useState<LanguagesAvailable>(
+      (localStorage.getItem('preferredLanguage') as LanguagesAvailable) ?? 'en'
+    )
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -174,6 +177,19 @@ export const useWordle = () => {
     ]
   )
 
+  const canGuessWord = useCallback(
+    (word: string) => {
+      const isWordInDictionary = getJsonWords(preferredLanguage)[
+        word.length
+      ].includes(word.toLowerCase())
+      console.log(getJsonWords(preferredLanguage)[word.length])
+      console.log('isWordInDictionary', isWordInDictionary)
+      console.log('word.length', word.length)
+      return word.length === wordLenght && isWordInDictionary
+    },
+    [preferredLanguage, wordLenght]
+  )
+
   const guessWord = useCallback(
     (word: string) => {
       if (word.length !== wordLenght) return false
@@ -198,6 +214,7 @@ export const useWordle = () => {
     preferredWordLength,
     setPreferredWordLength,
     preferredLanguage,
+    canGuessWord,
     setPreferredLanguage,
     startGame,
     guessWord

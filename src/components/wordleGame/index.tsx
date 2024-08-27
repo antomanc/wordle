@@ -6,8 +6,14 @@ import { toast } from 'react-toastify'
 
 export const WordleGame = () => {
   const theme = useTheme()
-  const { wordLenght, wordToGuess, wordsGuessed, guessWord, startGame } =
-    useWordle()
+  const {
+    wordLenght,
+    wordToGuess,
+    wordsGuessed,
+    canGuessWord,
+    guessWord,
+    startGame
+  } = useWordle()
   const [letters, setLetters] = useState<string[]>([])
   const [focused, setFocused] = useState<{ row: number; cell: number } | null>(
     null
@@ -42,6 +48,9 @@ export const WordleGame = () => {
   }, [emptyLetters, letters])
 
   const handleGuessWord = (word: string) => {
+    if (!canGuessWord(word)) {
+      return
+    }
     const isCorrect = guessWord(word)
     setLetters(emptyLetters)
     if (!isCorrect) {
@@ -150,13 +159,18 @@ export const WordleGame = () => {
                           onKeyDown={e => {
                             if (e.key === 'Backspace') {
                               const newLetters = [...letters]
-                              newLetters[cellIndex] = ''
-                              setLetters(newLetters)
-                              if (cellIndex > 0) {
-                                cellsRefs[rowIndex][
-                                  cellIndex - 1
-                                ]?.current?.focus()
+                              if (newLetters[cellIndex] === '') {
+                                newLetters[cellIndex - 1] = ''
+
+                                if (cellIndex > 0) {
+                                  cellsRefs[rowIndex][
+                                    cellIndex - 1
+                                  ]?.current?.focus()
+                                }
+                              } else {
+                                newLetters[cellIndex] = ''
                               }
+                              setLetters(newLetters)
                               return
                             }
                             if (e.key === 'ArrowLeft') {
