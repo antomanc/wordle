@@ -138,75 +138,85 @@ export const AppBar = ({ title }: AppBarProps) => {
             disableGutters
             disableRipple
             disableTouchRipple>
-            <Box
-              height={48}
-              display="flex"
-              alignItems="center"
-              p={2}
-              justifyContent="space-between">
-              <Button
-                size="small"
-                onClick={() => setPreferredWordLength(preferredWordLength - 1)}
-                endIcon={<Remove />}
-                sx={{ borderRadius: 28, height: 40, width: 40 }}
-              />
-              <Input
-                disableUnderline
-                value={preferredWordLength}
-                onChange={e => {
-                  if (!isNaN(Number(e.target.value))) {
-                    setPreferredWordLength(Number(e.target.value))
+            <Tooltip title={`Preferred word length`} placement="left">
+              <Box
+                height={48}
+                display="flex"
+                alignItems="center"
+                p={2}
+                justifyContent="space-between">
+                <Button
+                  size="small"
+                  onClick={() =>
+                    setPreferredWordLength(preferredWordLength - 1)
                   }
-                }}
-                inputProps={{
-                  style: {
-                    width: 40,
-                    textAlign: 'center',
-                    backgroundColor: 'transparent'
+                  endIcon={<Remove />}
+                  sx={{ borderRadius: 28, height: 40, width: 40 }}
+                />
+                <Input
+                  disableUnderline
+                  value={preferredWordLength}
+                  onChange={e => {
+                    if (!isNaN(Number(e.target.value))) {
+                      setPreferredWordLength(Number(e.target.value))
+                    }
+                  }}
+                  inputProps={{
+                    style: {
+                      width: 40,
+                      textAlign: 'center',
+                      backgroundColor: 'transparent'
+                    }
+                  }}
+                />
+                <Button
+                  endIcon={<Add />}
+                  onClick={() =>
+                    setPreferredWordLength(preferredWordLength + 1)
                   }
-                }}
-              />
-              <Button
-                endIcon={<Add />}
-                onClick={() => setPreferredWordLength(preferredWordLength + 1)}
-                sx={{ borderRadius: 28, height: 40, width: 40 }}
-              />
-            </Box>
+                  sx={{ borderRadius: 28, height: 40, width: 40 }}
+                />
+              </Box>
+            </Tooltip>
           </CustomMenuItem>
           <CustomMenuItem disableOnHoverEffect disableRipple disableTouchRipple>
-            <Box
-              height={48}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              p={2}>
-              <Select
-                size="small"
-                variant="standard"
-                disableUnderline
-                value={preferredLanguage}
-                onChange={e =>
-                  setPreferredLanguage(e.target.value as LanguagesAvailableEnum)
-                }
-                SelectDisplayProps={{
-                  style: {
-                    textAlign: 'center'
+            <Tooltip title={`Preferred language`} placement="left">
+              <Box
+                height={48}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                p={2}>
+                <Select
+                  size="small"
+                  variant="standard"
+                  disableUnderline
+                  value={preferredLanguage}
+                  onChange={e =>
+                    setPreferredLanguage(
+                      e.target.value as LanguagesAvailableEnum
+                    )
                   }
-                }}
-                inputProps={{
-                  style: {
-                    textAlign: 'center',
-                    backgroundColor: 'transparent'
-                  }
-                }}
-                sx={{ width: 120 }}>
-                {Object.values(LanguagesAvailableEnum).map(language => (
-                  <MenuItem value={language} key={language}>
-                    {languagesLabels[language]}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
+                  SelectDisplayProps={{
+                    style: {
+                      textAlign: 'center'
+                    }
+                  }}
+                  inputProps={{
+                    style: {
+                      textAlign: 'center',
+                      backgroundColor: 'transparent'
+                    }
+                  }}
+                  sx={{ width: 120 }}>
+                  {Object.values(LanguagesAvailableEnum).map(language => (
+                    <MenuItem value={language} key={language}>
+                      {languagesLabels[language]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+            </Tooltip>
           </CustomMenuItem>
         </StyledMenu>
       </Toolbar>
