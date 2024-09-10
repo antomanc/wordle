@@ -237,7 +237,7 @@ export const WordleGame = () => {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: theme.palette.text.primary
+                            color: 'black'
                           }}>
                           {wordsGuessed[rowIndex]?.letters[cellIndex].value}
                         </div>
